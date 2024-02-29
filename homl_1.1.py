@@ -17,7 +17,8 @@ Satis = lifesat[["Life satisfaction"]].values
 lifesat.plot(kind='scatter', grid=True,
              x="GDP per capita (USD)", y="Life satisfaction")
 plt.axis([23_500,62_500,4,9])
-plt.show()
+# plt.show()
+# Suppressing plot for now
 
 # Select a linear model
 model = LinearRegression()
@@ -49,16 +50,32 @@ print("Mean Squared Error:", mse)
 # Predicted life satisfaction for Cyprus (GDP per capita of 37,655.2 USD): [[6.30165767]]
 
 # Calculate MSE manually and compare to the prebuilt mse output
+
+Satis_hat = []
+for GDP_i in GDP:
+    Satis_hat_i = ((0.00006779*GDP_i) + 3.74904943).item()
+    print(GDP_i)
+    print(Satis_hat_i)
+    Satis_hat.append(Satis_hat_i)
+
+print("Satis_hat:", Satis_hat)
+print("Satis:", Satis)
+
 def calculate_mse(y_hat, y_actual):
     n = len(y_actual)
+    squared_differences = []
 
     for y_hat_i, y_actual_i in zip(y_hat, y_actual):
-        squared_difference = (y_actual_i - y_hat_i) ** 2
-        sum_of_squares = sum(squared_difference)
+        squared_differences.append((y_actual_i - y_hat_i) ** 2) # it's storing one squared difference value then doing what with it? dropping it?
 
-    manual_mse = sum_of_squares/n
-    return manual_mse
+    manual_SS = sum(squared_differences)
+    manual_MSE = manual_SS / n
 
-my_mse = calculate_mse(y_hat,y)
-print(f"Manually calculated Mean Squared Error: {manual_mse}")
+    print("Manual SS:", {manual_SS})
+    print("Manual MSE:", {manual_MSE})
+
+    return manual_MSE
+
+my_mse = calculate_mse(Satis_hat,Satis)
+print(f"Manually calculated Mean Squared Error: {my_mse}")
 
