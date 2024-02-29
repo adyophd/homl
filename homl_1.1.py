@@ -44,14 +44,14 @@ mse = mean_squared_error(Satis, model.predict(GDP))
 print("Mean Squared Error:", mse)
 
 # y_hat = 0.00006779(GDP) + 3.74904943
+Satis_hat = (0.00006779*GDP) + 3.74904943
+
 # R^2 = 0.7272610933272652
 # MSE = 0.15394596065527696
 
-# Predicted life satisfaction for Cyprus (GDP per capita of 37,655.2 USD): [[6.30165767]]
-
 # Calculate MSE manually and compare to the prebuilt mse output
 
-Satis_hat = (0.00006779*GDP) + 3.74904943
+
 
 # print("Satis_hat:", Satis_hat)
 # print(type(Satis_hat))
@@ -60,19 +60,25 @@ Satis_hat = (0.00006779*GDP) + 3.74904943
 
 def calculate_mse(y_hat, y_actual):
     n = len(y_actual)
-    squared_differences = []
+    squared_differences_from_prediction = []
+    squared_differences_from_mean = []
 
     for y_hat_i, y_actual_i in zip(y_hat, y_actual):
-        squared_differences.append((y_actual_i - y_hat_i) ** 2) # it's storing one squared difference value then doing what with it? dropping it?
+        squared_differences_from_prediction.append((y_actual_i - y_hat_i) ** 2)
+        squared_differences_from_mean.append((y_actual_i - np.mean(Satis)) ** 2)
 
-    manual_SS = sum(squared_differences)
-    manual_MSE = manual_SS / n
+    manual_SS_residual = sum(squared_differences_from_prediction)
+    manual_SS_total = sum(squared_differences_from_mean)
 
+    manual_MSE = manual_SS_residual / n
 
-    return manual_SS, manual_MSE
+    return manual_SS_residual, manual_SS_total, manual_MSE
 
-my_ss, my_mse = calculate_mse(Satis_hat,Satis)
+my_ss_residual, my_ss_total, my_mse = calculate_mse(Satis_hat,Satis)
 
-print("Manual SS:", my_ss)
+print("Manual SS Residual:", my_ss_residual)
+print("Manual SS Total:", my_ss_total)
+print("Manual R^2:", (1-(my_ss_residual/my_ss_total)))
 print("Manual MSE:", my_mse)
 
+# Next is to calculate the F statistic from Mean Square Regression / Mean Square Error etc
