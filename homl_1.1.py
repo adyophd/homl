@@ -51,15 +51,12 @@ print("Mean Squared Error:", mse)
 
 # Calculate MSE manually and compare to the prebuilt mse output
 
-Satis_hat = []
-for GDP_i in GDP:
-    Satis_hat_i = ((0.00006779*GDP_i) + 3.74904943).item()
-    print(GDP_i)
-    print(Satis_hat_i)
-    Satis_hat.append(Satis_hat_i)
+Satis_hat = (0.00006779*GDP) + 3.74904943
 
-print("Satis_hat:", Satis_hat)
-print("Satis:", Satis)
+# print("Satis_hat:", Satis_hat)
+# print(type(Satis_hat))
+# print("Satis:", Satis)
+# print(type(Satis))
 
 def calculate_mse(y_hat, y_actual):
     n = len(y_actual)
@@ -71,11 +68,11 @@ def calculate_mse(y_hat, y_actual):
     manual_SS = sum(squared_differences)
     manual_MSE = manual_SS / n
 
-    print("Manual SS:", {manual_SS})
-    print("Manual MSE:", {manual_MSE})
 
-    return manual_MSE
+    return manual_SS, manual_MSE
 
-my_mse = calculate_mse(Satis_hat,Satis)
-print(f"Manually calculated Mean Squared Error: {my_mse}")
+my_ss, my_mse = calculate_mse(Satis_hat,Satis)
+
+print("Manual SS:", my_ss)
+print("Manual MSE:", my_mse)
 
