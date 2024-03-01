@@ -63,34 +63,43 @@ Satis_hat = (0.00006779*GDP) + 3.74904943
 
 def calculate_mse(y_hat, y_actual):
     n = len(y_actual)
+    abs_differences_from_prediction = []
     squared_differences_from_prediction = []
     squared_differences_from_mean = []
 
     for y_hat_i, y_actual_i in zip(y_hat, y_actual):
-        squared_differences_from_prediction.append((y_actual_i - y_hat_i) ** 2)
-        squared_differences_from_mean.append((y_actual_i - np.mean(Satis)) ** 2)
+        abs_differences_from_prediction.append(np.abs(y_actual_i - y_hat_i)) # for use in MAE
+        squared_differences_from_prediction.append((y_actual_i - y_hat_i)**2) # for use in SS_residual
+        squared_differences_from_mean.append((y_actual_i - np.mean(Satis)) ** 2) # for use in SS_total
 
     manual_SS_residual = sum(squared_differences_from_prediction)
     manual_SS_total = sum(squared_differences_from_mean)
 
     manual_MSE = manual_SS_residual / n
 
-    return manual_SS_residual, manual_SS_total, manual_MSE
+    manual_abs_squares = (sum(abs_differences_from_prediction))*(1/n)
 
-my_ss_residual, my_ss_total, my_mse = calculate_mse(Satis_hat,Satis)
+    manual_MAE = manual_abs_squares
+    # Mean average error, p. 45
+
+    return manual_SS_residual, manual_SS_total, manual_MSE, manual_MAE
+
+my_ss_residual, my_ss_total, my_mse, my_mae = calculate_mse(Satis_hat,Satis)
 
 print("Manual SS Residual:", my_ss_residual)
 print("Manual SS Total:", my_ss_total)
 print("Manual R^2:", (1-(my_ss_residual/my_ss_total)))
 print("Manual MSE:", my_mse)
 print("RMSE:", np.sqrt(my_mse))
-# RMSE is the average prediction error (i.e., Satis_i = Satis_hat_i +/- 0.39)
-# Better models will have smaller RMSE
+print("MAE:", my_mae)
+# Both RMSE and MAE are akin to the average prediction error (i.e., Satis_i = Satis_hat_i +/- 0.39), which is ideally
+# RMSE gives a higher penalty to larger errors / outliers, which MAE gives a smaller penalty to
+# RMSE is the Euclidean norm (L2), and MAE is the Manhattan norm (L1)
 
 # Next is to calculate the F statistic and p-value of the model
 
 # Compute statsig test
-GDP_with_intercept = sm.add_constant(GDP) # Unlike scikit learn's LinearRegression, OLS doesn't automatically add an intercept
+GDP_with_intercept = sm.add_constant(GDP) # Unlike scikit learn's LinearRegression, OLS doesn't auto add an intercept
 model_test_results = sm.OLS(Satis, GDP_with_intercept).fit()
 print(model_test_results.summary())
 # F(1,25) = 66.66, p <.001, R^2 = 0.727
