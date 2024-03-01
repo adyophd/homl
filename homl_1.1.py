@@ -38,6 +38,7 @@ print("R-squared:", model.score(GDP, Satis))
 GDP_Cyprus = [[37_655.2]] # Cyprus GDP per capita in 2020
 cyprus_prediction = model.predict(GDP_Cyprus)
 print("Predicted life satisfaction for Cyprus (GDP per capita of 37,655.2 USD):", cyprus_prediction)
+# Output: 6.3016
 
 # Optional: Calculate Mean Squared Error (MSE) if you have a test set or want to calculate it on the training set
 mse = mean_squared_error(Satis, model.predict(GDP))
