@@ -1,4 +1,4 @@
-# Training and running a linear model in Scikit-Learn
+# Convert 1.1 to k_regression
 
 import matplotlib.pyplot as plt
 import numpy as np
