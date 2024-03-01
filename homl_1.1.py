@@ -6,6 +6,8 @@ np.set_printoptions(suppress=True) # turns off scientific notation
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
+import statsmodels.api as sm
+from scipy import stats
 
 # Download and prepare the data
 lifesat = pd.read_csv("https://raw.githubusercontent.com/ageron/data/main/lifesat/lifesat.csv")
@@ -81,5 +83,15 @@ print("Manual SS Residual:", my_ss_residual)
 print("Manual SS Total:", my_ss_total)
 print("Manual R^2:", (1-(my_ss_residual/my_ss_total)))
 print("Manual MSE:", my_mse)
+print("RMSE:", np.sqrt(my_mse))
+# RMSE is the average prediction error (i.e., Satis_i = Satis_hat_i +/- 0.39)
+# Better models will have smaller RMSE
 
-# Next is to calculate the F statistic from Mean Square Regression / Mean Square Error etc
+# Next is to calculate the F statistic and p-value of the model
+
+# Compute statsig test
+GDP_with_intercept = sm.add_constant(GDP) # Unlike scikit learn's LinearRegression, OLS doesn't automatically add an intercept
+model_test_results = sm.OLS(Satis, GDP_with_intercept).fit()
+print(model_test_results.summary())
+# F(1,25) = 66.66, p <.001, R^2 = 0.727
+

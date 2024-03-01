@@ -32,4 +32,5 @@ print("Predicted life satisfaction for Cyprus (GDP per capita of 37,655.2 USD):"
 # Output: 6.3333
 
 # What this model (k-nearest neighbors regression) is doing is finding the y values for the closest n number of neighbors
-# and averaging them.
+# and averaging them. This might be useful if there's ever a poor linear model (so using regression equation is out)
+# but you want a best guess at the value of another item.
