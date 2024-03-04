@@ -57,7 +57,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.homl_2_3">
+  <component name="RunManager" selected="Python.homl_2_2">
     <configuration name="homl_1_1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="homl" />
       <option name="ENV_FILES" value="" />
@@ -170,8 +170,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.homl_2_3" />
         <item itemvalue="Python.homl_2_2" />
+        <item itemvalue="Python.homl_2_3" />
         <item itemvalue="Python.homl_2_1" />
         <item itemvalue="Python.homl_1_1" />
         <item itemvalue="Python.homl_1_2" />

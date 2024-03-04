@@ -3,6 +3,8 @@
 # --------------------------
 
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 from homl_2_1 import load_housing_data
 
 housing = load_housing_data()
@@ -55,4 +57,12 @@ print("Train Set:", train_set.shape)
 print("Test Set:", test_set.shape)
 
 
+# Create Income Categories
+housing["income_cat"] = pd.cut(housing["median_income"],
+                               bins = [0., 1.5, 3.0, 4.5, 6.0, np.inf],
+                               labels = [1,2,3,4,5])
 
+housing["income_cat"].value_counts().sort_index().plot.bar(rot=0, grid = True)
+plt.xlabel("Income Category")
+plt.ylabel("Number of Districts")
+plt.show()

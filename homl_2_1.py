@@ -1,3 +1,6 @@
+# Includes code for loading data
+# And for querying a dataframe for basic info like variable details
+
 from pathlib import Path # not clear on this function
 import pandas as pd
 import tarfile # not clear on tarballs
@@ -41,8 +44,8 @@ housing = load_housing_data()
 #  9   ocean_proximity     20640 non-null  object
 
 # housing["ocean_proximity"].value_counts()   <--- for categorical variables
-# housing.describe() <---- for numerical variables
+# housing.describe() <---- for numerical variables. Can include (include='all') to include factors
 # housing.hist(bins = 50, figsize = (12,8)) <--- reveals caps on certain variables that be problematic for modeling
-
+# housing.columns to show colnames
 
 
