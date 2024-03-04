@@ -3,6 +3,9 @@
 # --------------------------
 
 import numpy as np
+from homl_2_1 import load_housing_data
+
+housing = load_housing_data()
 
 # IMPORTANT NOTE: This test set partition method is not optimal as it can lead to replication issues. See below.
 def shuffle_and_split(data, test_ratio):
@@ -41,6 +44,15 @@ housing_with_id = housing.reset_index() # adds an index column
 # A better method is to use data that won't change over time, like lat/long
 housing_with_id["id"] = housing["longitude"] * 1000 + housing["latitude"]  # why *1000? ensure unique ids (no two 0s)
 train_set, test_set = split_data_with_id_hash(housing_with_id, 0.2, "id")
+
+# Using sklearn's built-in functions
+# This method, while convenient, presumably doesn't solve the consistency issues solved above
+
+from sklearn.model_selection import train_test_split
+train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42)
+
+print("Train Set:", train_set.shape)
+print("Test Set:", test_set.shape)
 
 
 
